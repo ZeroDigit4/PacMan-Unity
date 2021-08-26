@@ -17,12 +17,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.PlaySound("intro");
         NewGame();
     }
 
     private void Update()
     {
-        if (this.lives <= 0 && Input.anyKeyDown)
+        if (this.lives <= 0 && Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape))
         {
             NewGame();
         }
@@ -83,6 +84,8 @@ public class GameManager : MonoBehaviour
 
     public void PacmanEaten()
     {
+        SoundManager.PlaySound("pacmanDeath");
+
         this.pacman.DeathSequence();
 
         SetLives(this.lives - 1);
@@ -93,12 +96,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            SoundManager.PlaySound("gameOver");
             GameOver();
         }
     }
 
     public void GhostEaten(Ghost ghost)
     {
+        SoundManager.PlaySound("ghostEaten");
         int points = ghost.points * this.ghostMultiplier;
         SetScore(this.score + points);
 
@@ -107,12 +112,14 @@ public class GameManager : MonoBehaviour
 
     public void PelletEaten(Pellet pellet)
     {
+        SoundManager.PlaySound("pelletEaten");
         pellet.gameObject.SetActive(false);
 
         SetScore(this.score + pellet.points);
 
         if (!HasRemainingPellets())
         {
+            SoundManager.PlaySound("newRound");
             this.pacman.gameObject.SetActive(false);
             Invoke(nameof(NewRound), 3.0f);
         }
@@ -120,6 +127,7 @@ public class GameManager : MonoBehaviour
 
     public void PowerPelletEaten(PowerPellet pellet)
     {
+        SoundManager.PlaySound("powerPelletEaten");
         for (int i = 0; i < this.ghosts.Length; i++)
         {
             this.ghosts[i].frightened.Enable(pellet.duration);
