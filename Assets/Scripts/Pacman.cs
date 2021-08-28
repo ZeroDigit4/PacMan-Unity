@@ -18,16 +18,20 @@ public class Pacman : MonoBehaviour
     private void Update()
     {
         // Set the new direction based on the current input
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && PauseMenu.gameIsPaused == false)
+        {
             this.movement.SetDirection(Vector2.up);
         }
-        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
+        else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && PauseMenu.gameIsPaused == false)
+        {
             this.movement.SetDirection(Vector2.down);
         }
-        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+        else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && PauseMenu.gameIsPaused == false)
+        {
             this.movement.SetDirection(Vector2.left);
         }
-        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
+        else if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && PauseMenu.gameIsPaused == false)
+        {
             this.movement.SetDirection(Vector2.right);
         }
 

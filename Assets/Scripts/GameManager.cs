@@ -15,15 +15,15 @@ public class GameManager : MonoBehaviour
     public int score { get; private set; }
     public int lives { get; private set; }
 
-    private void Start()
+    public void Start()
     {
-        SoundManager.PlaySound("intro");
+        Cursor.visible = false;
         NewGame();
     }
 
     private void Update()
     {
-        if (this.lives <= 0 && Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape))
+        if (this.lives <= 0 && Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && PauseMenu.gameIsPaused == false)
         {
             NewGame();
         }
@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
 
     private void NewRound()
     {
+        SoundManager.PlaySound("gameBackground");
         this.gameOverText.enabled = false;
 
         foreach (Transform pellet in this.pellets)
@@ -96,6 +97,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            SoundManager.BackgroundStop();
             SoundManager.PlaySound("gameOver");
             GameOver();
         }
@@ -119,6 +121,7 @@ public class GameManager : MonoBehaviour
 
         if (!HasRemainingPellets())
         {
+            SoundManager.BackgroundStop();
             SoundManager.PlaySound("newRound");
             this.pacman.gameObject.SetActive(false);
             Invoke(nameof(NewRound), 3.0f);
