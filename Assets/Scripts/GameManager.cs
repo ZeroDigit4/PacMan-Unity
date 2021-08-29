@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public int ghostMultiplier { get; private set; } = 1;
     public int score { get; private set; }
+    public static int highScore { get; private set; }
     public int lives { get; private set; }
 
     public void Start()
@@ -23,10 +24,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (this.lives <= 0 && Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && PauseMenu.gameIsPaused == false)
+        if (this.lives <= 0 && Input.anyKeyDown)
         {
             NewGame();
         }
+        if (score > highScore)
+        {
+            PlayerPrefs.SetInt("HighScore", score);
+        }
+        highScore = PlayerPrefs.GetInt("HighScore");
     }
 
     private void NewGame()

@@ -35,6 +35,7 @@ public class StartMenu : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         Application.Quit();
+        PlayerPrefs.DeleteAll();
     }
     public void Play()
     {

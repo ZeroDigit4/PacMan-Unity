@@ -10,7 +10,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject firstButton;
     public Text recordText;
     public int record;
-    public static bool gameIsPaused = false;
+    public static bool gameIsPaused = false, isRunning = false;
     public GameObject pauseMenuUI;
 
     GameObject lastselect;
@@ -23,6 +23,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        record = GameManager.highScore;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             this.recordText.enabled = false;
@@ -73,7 +74,13 @@ public class PauseMenu : MonoBehaviour
     }
     public void QuitGame()
     {
-
+        StartCoroutine(QuitAfterDelay(1f));
+    }
+    private IEnumerator QuitAfterDelay(float delay)
+    {
+        yield return new WaitForSecondsRealtime(1);
+        Application.Quit();
+        PlayerPrefs.DeleteAll();
     }
     public void Restart()
     {
@@ -87,6 +94,18 @@ public class PauseMenu : MonoBehaviour
     }
     public void Record()
     {
-
+        if (isRunning == false)
+        {
+            StartCoroutine(TextDelay());
+        }
+    }
+    private IEnumerator TextDelay()
+    {
+        isRunning = true;
+        this.recordText.enabled = true;
+        recordText.text = record.ToString();
+        yield return new WaitForSecondsRealtime(0.5f);
+        this.recordText.enabled = false;
+        isRunning = false;
     }
 }
